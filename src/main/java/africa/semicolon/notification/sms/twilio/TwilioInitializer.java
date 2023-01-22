@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
-@Slf4j
 @Configuration
 public class TwilioInitializer {
 
@@ -15,6 +14,5 @@ public class TwilioInitializer {
     public TwilioInitializer(TwilioConfiguration twilioConfiguration){
         this.twilioConfiguration = twilioConfiguration;
         Twilio.init(twilioConfiguration.getAccountSid(), twilioConfiguration.getAuthToken());
-        log.info("Twilio account sid id {} ", twilioConfiguration.getAccountSid());
     }
 }
