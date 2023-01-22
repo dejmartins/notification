@@ -1,5 +1,7 @@
 package africa.semicolon.notification.user;
 
+import africa.semicolon.notification.sms.SmsRequest;
+import africa.semicolon.notification.sms.SmsService;
 import africa.semicolon.notification.user.dtos.requests.RegistrationRequest;
 import africa.semicolon.notification.user.dtos.responses.ApiResponse;
 import jakarta.mail.MessagingException;
@@ -7,10 +9,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
 
@@ -20,6 +19,7 @@ import java.time.ZonedDateTime;
 public class UserController {
 
     private final UserService userService;
+    private final SmsService smsService;
 
     @GetMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegistrationRequest registrationRequest) throws MessagingException {
@@ -32,5 +32,10 @@ public class UserController {
                 .build();
 
         return new ResponseEntity<>(apiResponse, HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping("/sendSms")
+    public void sendSms(@Valid @RequestBody SmsRequest smsRequest) {
+        smsService.sendSms(smsRequest);
     }
 }
