@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.ZonedDateTime;
 
 @RestController
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("/sendSms")
-    public void sendSms(@Valid @RequestBody SmsRequest smsRequest) {
+    public void sendSms(@Valid @RequestBody SmsRequest smsRequest) throws IOException {
         smsService.sendSms(smsRequest);
     }
 }
