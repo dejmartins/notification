@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class ScheduledEmailRequest {
+public class ScheduledEmail {
 
     @Id
     private String id;

@@ -1,4 +1,4 @@
-package africa.semicolon.notification.sms.twilio;
+package africa.semicolon.notification.utils.config.twilio;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,5 +16,6 @@ public class TwilioConfiguration {
     private String accountSid;
     private String authToken;
     private String trialNumber;
+    private String whatsappTrialNumber;
 
 }

@@ -1,6 +1,5 @@
-package africa.semicolon.notification.sms;
+package africa.semicolon.notification.whatsapp;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +10,7 @@ import lombok.Setter;
 @Getter
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class SmsRequest {
+public class WhatsappRequest {
 
     @NotBlank
     private String phoneNumber;

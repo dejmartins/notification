@@ -1,4 +1,4 @@
-package africa.semicolon.notification.sms.movider;
+package africa.semicolon.notification.utils.config.movider;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

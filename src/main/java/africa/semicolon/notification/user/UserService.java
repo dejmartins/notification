@@ -1,13 +1,16 @@
 package africa.semicolon.notification.user;
 
-import africa.semicolon.notification.email.EmailSender;
-import africa.semicolon.notification.email.ScheduledEmailRequest;
+import africa.semicolon.notification.email.ScheduledEmail;
 import africa.semicolon.notification.user.dtos.requests.RegistrationRequest;
 import africa.semicolon.notification.user.dtos.responses.RegistrationResponse;
 import africa.semicolon.notification.user.mapper.UserModelMapper;
+import africa.semicolon.notification.utils.Sender;
+import africa.semicolon.notification.utils.dtos.requests.MessageRequest;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 @Service
 @AllArgsConstructor
@@ -15,10 +18,10 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserModelMapper modelMapper;
-    private final EmailSender emailSender;
+    private final Sender emailSender;
 
 
-    public RegistrationResponse register(RegistrationRequest registrationRequest) throws MessagingException {
+    public RegistrationResponse register(RegistrationRequest registrationRequest) throws MessagingException, IOException {
         boolean emailExist = userRepository.findUserByEmail(registrationRequest.getEmail()).isPresent();
         if(emailExist) throw new IllegalStateException("Email already exists");
 
@@ -30,12 +33,12 @@ public class UserService {
         String firstName = "Joe";
         String confirmationToken = "djdS1jns2L4KDjnsj0TPy2";
 
-        ScheduledEmailRequest scheduleEmailRequest = new ScheduledEmailRequest();
-        scheduleEmailRequest.setEmailAddress(registrationRequest.getEmail());
-        scheduleEmailRequest.setBody(buildEmail(firstName, confirmationToken));
-        scheduleEmailRequest.setSubject("Confirm your email");
+        MessageRequest request = new MessageRequest();
+        request.setEmailAddress(registrationRequest.getEmail());
+        request.setMessage(buildEmail(firstName, confirmationToken));
+        request.setSubject("Confirm your email");
 
-        emailSender.send(scheduleEmailRequest);
+        emailSender.send(request);
 
         return registrationResponse;
     }

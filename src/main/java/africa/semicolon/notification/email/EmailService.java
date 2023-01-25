@@ -1,42 +1,58 @@
 package africa.semicolon.notification.email;
 
+import africa.semicolon.notification.email.mapper.ModelMapper;
+import africa.semicolon.notification.utils.Sender;
+import africa.semicolon.notification.utils.dtos.requests.MessageRequest;
+import africa.semicolon.notification.utils.dtos.responses.SendResponse;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.CompletableFuture;
+
 @Slf4j
 @Service
 @AllArgsConstructor
-public class EmailService implements EmailSender {
+public class EmailService implements Sender {
 
     private JavaMailSender javaMailSender;
     private EmailRepository emailRepository;
+    private ModelMapper mapper;
 
     @Async
     @Override
-    public void send(ScheduledEmailRequest scheduleEmailRequest) throws MessagingException {
-        try{
+    public CompletableFuture<SendResponse> send(MessageRequest messageRequest) {
+        ScheduledEmail scheduledEmail = mapper.map(messageRequest);
+        try {
             MimeMessage mailMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mailMessage, "utf-8");
-            mimeMessageHelper.setSubject(scheduleEmailRequest.getSubject());
-            mimeMessageHelper.setTo(scheduleEmailRequest.getEmailAddress());
+            mimeMessageHelper.setSubject(scheduledEmail.getSubject());
+            mimeMessageHelper.setTo(scheduledEmail.getEmailAddress());
             mimeMessageHelper.setFrom("dej@gmail.com");
-            mimeMessageHelper.setText(scheduleEmailRequest.getBody(), true);
+            mimeMessageHelper.setText(scheduledEmail.getBody(), true);
             javaMailSender.send(mailMessage);
-            scheduleEmailRequest.setHasSent(true);
+            scheduledEmail.setHasSent(true);
+
+            return CompletableFuture.completedFuture(new SendResponse(
+                    HttpStatus.OK.value(),
+                    "Email sent",
+                    true
+            ));
+
         } catch (MessagingException | MailException e) {
-            emailRepository.save(scheduleEmailRequest);
+            emailRepository.save(scheduledEmail);
             throw new RuntimeException(e);
         }
     }
 
-    public Iterable<ScheduledEmailRequest> findUnsentEmails(){
+    public Iterable<ScheduledEmail> findUnsentEmails(){
         return emailRepository.findUnsentEmails();
     }
 }

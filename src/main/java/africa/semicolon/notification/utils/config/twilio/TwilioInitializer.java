@@ -1,7 +1,6 @@
-package africa.semicolon.notification.sms.twilio;
+package africa.semicolon.notification.utils.config.twilio;
 
 import com.twilio.Twilio;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 

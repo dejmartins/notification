@@ -5,9 +5,9 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EmailRepository extends MongoRepository<ScheduledEmailRequest, String> {
+public interface EmailRepository extends MongoRepository<ScheduledEmail, String> {
 
     @Query("{hasSent:false}")
-    Iterable<ScheduledEmailRequest> findUnsentEmails();
+    Iterable<ScheduledEmail> findUnsentEmails();
 
 }

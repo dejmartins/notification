@@ -1,22 +1,32 @@
 package africa.semicolon.notification.sms.movider;
 
+import africa.semicolon.notification.sms.mapper.ModelMapper;
+import africa.semicolon.notification.utils.Sender;
+import africa.semicolon.notification.utils.config.movider.MoviderConfiguration;
 import africa.semicolon.notification.sms.SmsRequest;
-import africa.semicolon.notification.sms.SmsSender;
+import africa.semicolon.notification.utils.dtos.requests.MessageRequest;
+import africa.semicolon.notification.utils.dtos.responses.SendResponse;
 import com.squareup.okhttp.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service("Movider")
 @AllArgsConstructor
-public class MoviderSmsSender implements SmsSender {
+public class MoviderSmsSender implements Sender {
 
     private final MoviderConfiguration moviderConfiguration;
+    private ModelMapper mapper;
+
     @Override
-    public void send(SmsRequest smsRequest) throws IOException {
+    public CompletableFuture<SendResponse> send(MessageRequest messageRequest) throws IOException {
+        SmsRequest smsRequest = mapper.map(messageRequest);
+        smsRequest.setPhoneNumber(phoneNumberFormat(smsRequest.getPhoneNumber()));
 
         OkHttpClient client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
@@ -36,7 +46,25 @@ public class MoviderSmsSender implements SmsSender {
                 .build();
 
         Response response = client.newCall(request).execute();
-        log.info(String.valueOf(response));
 
+        return CompletableFuture.completedFuture(new SendResponse(
+                HttpStatus.OK.value(),
+                response,
+                true
+        ));
     }
+
+    private String phoneNumberFormat(String phoneNumber){
+        if (phoneNumber.startsWith("+")) {
+            phoneNumber = phoneNumber.substring(1);
+        }
+
+        if(phoneNumber.startsWith("0")){
+            phoneNumber = "234" + phoneNumber.substring(1);
+        }
+
+        return phoneNumber;
+    }
+
+
 }

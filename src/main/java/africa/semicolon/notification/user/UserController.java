@@ -4,6 +4,8 @@ import africa.semicolon.notification.sms.SmsRequest;
 import africa.semicolon.notification.sms.SmsService;
 import africa.semicolon.notification.user.dtos.requests.RegistrationRequest;
 import africa.semicolon.notification.user.dtos.responses.ApiResponse;
+import africa.semicolon.notification.utils.dtos.requests.MessageRequest;
+import africa.semicolon.notification.whatsapp.WhatsappService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -21,9 +23,10 @@ public class UserController {
 
     private final UserService userService;
     private final SmsService smsService;
+    private final WhatsappService whatsappService;
 
     @GetMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegistrationRequest registrationRequest) throws MessagingException {
+    public ResponseEntity<?> register(@Valid @RequestBody RegistrationRequest registrationRequest) throws MessagingException, IOException {
 
         ApiResponse apiResponse = ApiResponse.builder()
                 .statusCode(HttpStatus.ACCEPTED)
@@ -36,7 +39,12 @@ public class UserController {
     }
 
     @PostMapping("/sendSms")
-    public void sendSms(@Valid @RequestBody SmsRequest smsRequest) throws IOException {
+    public void sendSms(@Valid @RequestBody MessageRequest smsRequest) throws IOException {
         smsService.sendSms(smsRequest);
+    }
+
+    @PostMapping("/sendWha")
+    public void sendWhatsappMessage(@Valid @RequestBody MessageRequest smsRequest) throws IOException {
+        whatsappService.send(smsRequest);
     }
 }
