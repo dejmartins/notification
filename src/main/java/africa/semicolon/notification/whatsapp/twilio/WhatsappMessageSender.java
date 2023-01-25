@@ -8,6 +8,7 @@ import africa.semicolon.notification.whatsapp.WhatsappRequest;
 import africa.semicolon.notification.whatsapp.mapper.WhatsappModelMapper;
 import com.twilio.rest.api.v2010.account.Message;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,22 +18,22 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service("TwilioWhatsapp")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class WhatsappMessageSender implements Sender {
 
-    private TwilioConfiguration twilioConfiguration;
+    private final String WHATSAPP_NUMBER = System.getenv("WHATSAPP_NUMBER");
     private final WhatsappModelMapper mapper;
 
     @Override
     public CompletableFuture<SendResponse> send(MessageRequest messageRequest) throws IOException {
         WhatsappRequest whatsappRequest = mapper.map(messageRequest);
-        log.info(twilioConfiguration.getWhatsappTrialNumber());
         Message message = Message.creator(
                         new com.twilio.type.PhoneNumber("whatsapp:"+whatsappRequest.getPhoneNumber()),
-                        new com.twilio.type.PhoneNumber("whatsapp:"+twilioConfiguration.getWhatsappTrialNumber()),
+                        new com.twilio.type.PhoneNumber("whatsapp:"+"+14155238886"),
                         whatsappRequest.getMessage())
                 .create();
 
+        log.info(WHATSAPP_NUMBER);
         return CompletableFuture.completedFuture(new SendResponse(
                 HttpStatus.OK.value(),
                 "Sender ID: "+message.getSid(),

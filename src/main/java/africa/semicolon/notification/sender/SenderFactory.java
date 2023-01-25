@@ -1,14 +1,16 @@
 package africa.semicolon.notification.sender;
 
+import africa.semicolon.notification.config.movider.MoviderConfiguration;
 import africa.semicolon.notification.config.twilio.TwilioConfiguration;
 import africa.semicolon.notification.email.EmailService;
+import africa.semicolon.notification.sms.SmsService;
+import africa.semicolon.notification.sms.mapper.SmsModelMapper;
 import africa.semicolon.notification.sms.movider.MoviderSmsSender;
 import africa.semicolon.notification.utils.Sender;
+import africa.semicolon.notification.whatsapp.WhatsappService;
 import africa.semicolon.notification.whatsapp.mapper.WhatsappModelMapper;
 import africa.semicolon.notification.whatsapp.twilio.WhatsappMessageSender;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,10 +22,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SenderFactory {
 
-    @Bean
-    public static Sender moviderSender(){
-        return new MoviderSmsSender();
-    }
 
     @Bean
     public static Sender emailSender(){
@@ -31,14 +29,19 @@ public class SenderFactory {
     }
 
     @Bean
+    public static Sender smsSender(){
+        return new SmsService(new MoviderSmsSender(new SmsModelMapper()));
+    }
+
+    @Bean
     public static Sender whatsappSender(){
-        return new WhatsappMessageSender(new WhatsappModelMapper());
+        return new WhatsappService(new WhatsappMessageSender(new WhatsappModelMapper()));
     }
 
     static Map<String, Sender> senderMap = new HashMap<>();
     static {
-        senderMap.put("sms", moviderSender());
         senderMap.put("email", emailSender());
+        senderMap.put("sms", smsSender());
         senderMap.put("whatsapp", whatsappSender());
     }
 
