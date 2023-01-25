@@ -2,12 +2,14 @@ package africa.semicolon.notification.email;
 
 import africa.semicolon.notification.email.mapper.ModelMapper;
 import africa.semicolon.notification.utils.Sender;
-import africa.semicolon.notification.utils.dtos.requests.MessageRequest;
-import africa.semicolon.notification.utils.dtos.responses.SendResponse;
+import africa.semicolon.notification.dtos.requests.MessageRequest;
+import africa.semicolon.notification.dtos.responses.SendResponse;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,10 +22,12 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @Service
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class EmailService implements Sender {
 
-    private JavaMailSender javaMailSender;
+    @Autowired
     private EmailRepository emailRepository;
+    private JavaMailSender javaMailSender;
     private ModelMapper mapper;
 
     @Async

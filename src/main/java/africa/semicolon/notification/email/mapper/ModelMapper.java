@@ -1,8 +1,10 @@
 package africa.semicolon.notification.email.mapper;
 
 import africa.semicolon.notification.email.ScheduledEmail;
-import africa.semicolon.notification.utils.dtos.requests.MessageRequest;
+import africa.semicolon.notification.dtos.requests.MessageRequest;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ModelMapper {
 
     public ScheduledEmail map(MessageRequest messageRequest){

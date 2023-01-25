@@ -1,7 +1,7 @@
-package africa.semicolon.notification.user.mapper;
+package africa.semicolon.notification.sender.mapper;
 
-import africa.semicolon.notification.user.User;
-import africa.semicolon.notification.user.dtos.requests.RegistrationRequest;
+import africa.semicolon.notification.sender.User;
+import africa.semicolon.notification.sender.dtos.requests.RegistrationRequest;
 import org.springframework.stereotype.Component;
 
 @Component

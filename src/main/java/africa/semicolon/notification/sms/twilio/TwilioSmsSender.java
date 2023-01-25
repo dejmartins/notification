@@ -1,11 +1,11 @@
 package africa.semicolon.notification.sms.twilio;
 
-import africa.semicolon.notification.sms.mapper.ModelMapper;
+import africa.semicolon.notification.sms.mapper.SmsModelMapper;
 import africa.semicolon.notification.utils.Sender;
-import africa.semicolon.notification.utils.config.twilio.TwilioConfiguration;
+import africa.semicolon.notification.config.twilio.TwilioConfiguration;
 import africa.semicolon.notification.sms.SmsRequest;
-import africa.semicolon.notification.utils.dtos.requests.MessageRequest;
-import africa.semicolon.notification.utils.dtos.responses.SendResponse;
+import africa.semicolon.notification.dtos.requests.MessageRequest;
+import africa.semicolon.notification.dtos.responses.SendResponse;
 import com.twilio.rest.api.v2010.account.Message;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class TwilioSmsSender implements Sender {
 
     @Autowired
     private final TwilioConfiguration twilioConfiguration;
-    private ModelMapper mapper;
+    private SmsModelMapper mapper;
 
     @Override
     public CompletableFuture<SendResponse> send(MessageRequest messageRequest) throws IOException {
@@ -47,6 +47,7 @@ public class TwilioSmsSender implements Sender {
 
     private boolean isPhoneNumberValid(String phoneNumber) {
         //Todo: Google library to validate phone numbers
+        //Todo: Check email - if email is not valid? (Related to scheduler)
         return true;
     }
 }

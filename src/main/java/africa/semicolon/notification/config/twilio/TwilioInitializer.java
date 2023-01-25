@@ -1,4 +1,4 @@
-package africa.semicolon.notification.utils.config.twilio;
+package africa.semicolon.notification.config.twilio;
 
 import com.twilio.Twilio;
 import org.springframework.beans.factory.annotation.Autowired;

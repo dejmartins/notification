@@ -1,4 +1,4 @@
-package africa.semicolon.notification.utils.config.twilio;
+package africa.semicolon.notification.config.movider;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,12 +10,11 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Configuration
 @RequiredArgsConstructor
-@ConfigurationProperties(prefix = "twilio")
-public class TwilioConfiguration {
+@ConfigurationProperties(prefix = "movider")
+public class MoviderConfiguration {
 
-    private String accountSid;
-    private String authToken;
-    private String trialNumber;
-    private String whatsappTrialNumber;
+    private String apiKey;
+    private String apiSecret;
+    private String senderId;
 
 }

@@ -1,13 +1,14 @@
 package africa.semicolon.notification.sms.movider;
 
-import africa.semicolon.notification.sms.mapper.ModelMapper;
+import africa.semicolon.notification.sms.mapper.SmsModelMapper;
 import africa.semicolon.notification.utils.Sender;
-import africa.semicolon.notification.utils.config.movider.MoviderConfiguration;
+import africa.semicolon.notification.config.movider.MoviderConfiguration;
 import africa.semicolon.notification.sms.SmsRequest;
-import africa.semicolon.notification.utils.dtos.requests.MessageRequest;
-import africa.semicolon.notification.utils.dtos.responses.SendResponse;
+import africa.semicolon.notification.dtos.requests.MessageRequest;
+import africa.semicolon.notification.dtos.responses.SendResponse;
 import com.squareup.okhttp.*;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,11 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @Service("Movider")
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class MoviderSmsSender implements Sender {
 
-    private final MoviderConfiguration moviderConfiguration;
-    private ModelMapper mapper;
+    private MoviderConfiguration moviderConfiguration;
+    private SmsModelMapper mapper;
 
     @Override
     public CompletableFuture<SendResponse> send(MessageRequest messageRequest) throws IOException {

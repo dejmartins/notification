@@ -1,27 +1,36 @@
-package africa.semicolon.notification.user;
+package africa.semicolon.notification.sender;
 
-import africa.semicolon.notification.email.ScheduledEmail;
-import africa.semicolon.notification.user.dtos.requests.RegistrationRequest;
-import africa.semicolon.notification.user.dtos.responses.RegistrationResponse;
-import africa.semicolon.notification.user.mapper.UserModelMapper;
+import africa.semicolon.notification.sender.dtos.requests.RegistrationRequest;
+import africa.semicolon.notification.sender.dtos.responses.RegistrationResponse;
+import africa.semicolon.notification.sender.mapper.UserModelMapper;
 import africa.semicolon.notification.utils.Sender;
-import africa.semicolon.notification.utils.dtos.requests.MessageRequest;
-import jakarta.mail.MessagingException;
+import africa.semicolon.notification.dtos.requests.MessageRequest;
+import africa.semicolon.notification.dtos.responses.SendResponse;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @AllArgsConstructor
-public class UserService {
+@RequiredArgsConstructor
+public class SenderService {
 
-    private final UserRepository userRepository;
-    private final UserModelMapper modelMapper;
-    private final Sender emailSender;
+    private UserRepository userRepository;
+    private UserModelMapper modelMapper;
+    private Sender emailSender;
+
+    public CompletableFuture<SendResponse> send(MessageRequest messageRequest) throws IOException {
+        Sender sender = SenderFactory
+                .getSender(messageRequest.getType())
+                .orElseThrow(() -> new IllegalStateException("Invalid sender type"));
+        return sender.send(messageRequest);
+    }
 
 
-    public RegistrationResponse register(RegistrationRequest registrationRequest) throws MessagingException, IOException {
+    public RegistrationResponse register(RegistrationRequest registrationRequest) throws IOException {
         boolean emailExist = userRepository.findUserByEmail(registrationRequest.getEmail()).isPresent();
         if(emailExist) throw new IllegalStateException("Email already exists");
 

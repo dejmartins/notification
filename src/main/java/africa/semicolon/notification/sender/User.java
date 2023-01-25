@@ -1,4 +1,4 @@
-package africa.semicolon.notification.user;
+package africa.semicolon.notification.sender;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package africa.semicolon.notification.utils.dtos.responses;
+package africa.semicolon.notification.dtos.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

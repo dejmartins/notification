@@ -1,9 +1,11 @@
 package africa.semicolon.notification.sms.mapper;
 
 import africa.semicolon.notification.sms.SmsRequest;
-import africa.semicolon.notification.utils.dtos.requests.MessageRequest;
+import africa.semicolon.notification.dtos.requests.MessageRequest;
+import org.springframework.stereotype.Component;
 
-public class ModelMapper {
+@Component
+public class SmsModelMapper {
 
     public SmsRequest map(MessageRequest messageRequest) {
         SmsRequest smsRequest = new SmsRequest();

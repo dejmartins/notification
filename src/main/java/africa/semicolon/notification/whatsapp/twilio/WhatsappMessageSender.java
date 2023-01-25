@@ -1,12 +1,11 @@
 package africa.semicolon.notification.whatsapp.twilio;
 
-import africa.semicolon.notification.sms.SmsRequest;
 import africa.semicolon.notification.utils.Sender;
-import africa.semicolon.notification.utils.config.twilio.TwilioConfiguration;
-import africa.semicolon.notification.utils.dtos.requests.MessageRequest;
-import africa.semicolon.notification.utils.dtos.responses.SendResponse;
+import africa.semicolon.notification.config.twilio.TwilioConfiguration;
+import africa.semicolon.notification.dtos.requests.MessageRequest;
+import africa.semicolon.notification.dtos.responses.SendResponse;
 import africa.semicolon.notification.whatsapp.WhatsappRequest;
-import africa.semicolon.notification.whatsapp.mapper.ModelMapper;
+import africa.semicolon.notification.whatsapp.mapper.WhatsappModelMapper;
 import com.twilio.rest.api.v2010.account.Message;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,12 +20,13 @@ import java.util.concurrent.CompletableFuture;
 @AllArgsConstructor
 public class WhatsappMessageSender implements Sender {
 
-    private final TwilioConfiguration twilioConfiguration;
-    private ModelMapper mapper;
+    private TwilioConfiguration twilioConfiguration;
+    private final WhatsappModelMapper mapper;
 
     @Override
     public CompletableFuture<SendResponse> send(MessageRequest messageRequest) throws IOException {
         WhatsappRequest whatsappRequest = mapper.map(messageRequest);
+        log.info(twilioConfiguration.getWhatsappTrialNumber());
         Message message = Message.creator(
                         new com.twilio.type.PhoneNumber("whatsapp:"+whatsappRequest.getPhoneNumber()),
                         new com.twilio.type.PhoneNumber("whatsapp:"+twilioConfiguration.getWhatsappTrialNumber()),

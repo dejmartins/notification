@@ -1,4 +1,4 @@
-package africa.semicolon.notification.utils.dtos.requests;
+package africa.semicolon.notification.dtos.requests;
 
 import lombok.*;
 
@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 public class MessageRequest {
 
+    private String type;
     private String from;
     private String message;
     private String subject;

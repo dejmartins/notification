@@ -1,8 +1,7 @@
 package africa.semicolon.notification.whatsapp;
 
-import africa.semicolon.notification.sms.SmsRequest;
 import africa.semicolon.notification.utils.Sender;
-import africa.semicolon.notification.utils.dtos.requests.MessageRequest;
+import africa.semicolon.notification.dtos.requests.MessageRequest;
 import africa.semicolon.notification.whatsapp.twilio.WhatsappMessageSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

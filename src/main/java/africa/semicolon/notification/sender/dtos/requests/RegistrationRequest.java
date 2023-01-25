@@ -1,4 +1,4 @@
-package africa.semicolon.notification.user.dtos.requests;
+package africa.semicolon.notification.sender.dtos.requests;
 
 import lombok.Getter;
 import lombok.Setter;
