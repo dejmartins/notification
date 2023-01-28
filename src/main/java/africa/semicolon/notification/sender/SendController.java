@@ -2,6 +2,7 @@ package africa.semicolon.notification.sender;
 
 import africa.semicolon.notification.dtos.requests.MessageRequest;
 import africa.semicolon.notification.dtos.responses.ApiResponse;
+import com.google.i18n.phonenumbers.NumberParseException;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ public class SendController {
     private final SenderService senderService;
 
     @PostMapping("/send")
-    public ResponseEntity<?> sendSms(@Valid @RequestBody MessageRequest request) throws MessagingException, IOException {
+    public ResponseEntity<?> sendSms(@Valid @RequestBody MessageRequest request) throws MessagingException, IOException, NumberParseException {
         senderService.send(request);
         ApiResponse apiResponse = ApiResponse.builder()
                 .data(ResponseEntity.ok("Sent"))

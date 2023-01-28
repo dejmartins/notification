@@ -5,7 +5,8 @@ import africa.semicolon.notification.dtos.requests.MessageRequest;
 import africa.semicolon.notification.sms.SmsRequest;
 import africa.semicolon.notification.sms.SmsService;
 import africa.semicolon.notification.sms.mapper.SmsModelMapper;
-import africa.semicolon.notification.utils.SendType;
+import africa.semicolon.notification.utils.Sender;
+import com.google.i18n.phonenumbers.NumberParseException;
 import com.squareup.okhttp.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,16 +23,11 @@ public class MoviderSmsSender implements SmsService {
     private final SmsModelMapper mapper;
     private final MoviderConfiguration moviderConfiguration;
 
-    @Override
-    public SendType getType() {
-        return SendType.SMS;
-    }
 
     @Override
-    public void send(MessageRequest messageRequest) throws IOException {
+    public void send(MessageRequest messageRequest) throws IOException, NumberParseException {
+        messageRequest.setPhoneNumber(Sender.phoneNumberFormat(messageRequest.getPhoneNumber()));
         SmsRequest smsRequest = mapper.map(messageRequest);
-        smsRequest.setPhoneNumber(phoneNumberFormat(smsRequest.getPhoneNumber()));
-
 
         OkHttpClient client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
@@ -50,21 +46,14 @@ public class MoviderSmsSender implements SmsService {
                 .addHeader("content-type", "application/x-www-form-urlencoded")
                 .build();
 
-        Response response = client.newCall(request).execute();
-        log.info(response.body().string());
+        if(Sender.isPhoneNumberValid(smsRequest.getPhoneNumber())){
+            Response response = client.newCall(request).execute();
+            log.info(response.body().string());
+        } else {
+            throw new IllegalArgumentException("Invalid Phone Number for Nigeria");
+        }
     }
 
-    private String phoneNumberFormat(String phoneNumber){
-        if (phoneNumber.startsWith("+")) {
-            phoneNumber = phoneNumber.substring(1);
-        }
-
-        if(phoneNumber.startsWith("0")){
-            phoneNumber = "234" + phoneNumber.substring(1);
-        }
-
-        return phoneNumber;
-    }
 
 
 }

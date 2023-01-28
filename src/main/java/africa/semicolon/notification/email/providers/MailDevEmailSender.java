@@ -5,7 +5,6 @@ import africa.semicolon.notification.email.Email;
 import africa.semicolon.notification.email.EmailRepository;
 import africa.semicolon.notification.email.EmailService;
 import africa.semicolon.notification.email.mapper.ModelMapper;
-import africa.semicolon.notification.utils.SendType;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +26,6 @@ public class MailDevEmailSender implements EmailService {
     private final JavaMailSender javaMailSender;
     private final ModelMapper mapper;
 
-    public SendType getType() {
-        return SendType.EMAIL;
-    }
 
     @Async
     public void send(MessageRequest messageRequest) throws MessagingException {
