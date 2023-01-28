@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @Getter
 @Configuration
-@RequiredArgsConstructor
 @ConfigurationProperties(prefix = "movider")
 public class MoviderConfiguration {
 

@@ -1,16 +1,11 @@
 package africa.semicolon.notification.sms;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
-@Setter
-@Getter
+@Data
 @RequiredArgsConstructor
-@AllArgsConstructor
 public class SmsRequest {
 
     @NotBlank

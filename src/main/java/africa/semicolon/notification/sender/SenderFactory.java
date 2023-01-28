@@ -1,51 +1,39 @@
 package africa.semicolon.notification.sender;
 
-import africa.semicolon.notification.config.movider.MoviderConfiguration;
-import africa.semicolon.notification.config.twilio.TwilioConfiguration;
 import africa.semicolon.notification.email.EmailService;
 import africa.semicolon.notification.sms.SmsService;
-import africa.semicolon.notification.sms.mapper.SmsModelMapper;
-import africa.semicolon.notification.sms.movider.MoviderSmsSender;
+import africa.semicolon.notification.utils.SendType;
 import africa.semicolon.notification.utils.Sender;
 import africa.semicolon.notification.whatsapp.WhatsappService;
-import africa.semicolon.notification.whatsapp.mapper.WhatsappModelMapper;
-import africa.semicolon.notification.whatsapp.twilio.WhatsappMessageSender;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@Configuration
+@Component
 @RequiredArgsConstructor
-public class SenderFactory {
+public class SenderFactory{
 
+    private final EmailService emailService;
+    private final SmsService smsService;
+    private final WhatsappService whatsappService;
+    private Map<SendType, Sender> senderMap;
 
-    @Bean
-    public static Sender emailSender(){
-        return new EmailService();
+    @PostConstruct
+    public void initializeServices(){
+        this.senderMap = new HashMap<>();
+        senderMap.put(SendType.EMAIL, emailService);
+        senderMap.put(SendType.SMS, smsService);
+        senderMap.put(SendType.WHATSAPP, whatsappService);
     }
 
-    @Bean
-    public static Sender smsSender(){
-        return new SmsService(new MoviderSmsSender(new SmsModelMapper()));
+
+    public Sender getSender(SendType type){
+        return Optional.ofNullable(senderMap.get(type))
+                .orElseThrow(IllegalArgumentException::new);
     }
 
-    @Bean
-    public static Sender whatsappSender(){
-        return new WhatsappService(new WhatsappMessageSender(new WhatsappModelMapper()));
-    }
-
-    static Map<String, Sender> senderMap = new HashMap<>();
-    static {
-        senderMap.put("email", emailSender());
-        senderMap.put("sms", smsSender());
-        senderMap.put("whatsapp", whatsappSender());
-    }
-
-    public static Optional<Sender> getSender(String type){
-        return Optional.ofNullable(senderMap.get(type.toLowerCase()));
-    }
 }

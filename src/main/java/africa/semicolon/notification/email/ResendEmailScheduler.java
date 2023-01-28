@@ -1,28 +1,31 @@
 package africa.semicolon.notification.email;
 
+import africa.semicolon.notification.email.providers.MailDevEmailSender;
 import africa.semicolon.notification.email.mapper.ModelMapper;
-import lombok.AllArgsConstructor;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.util.List;
+
 @Configuration
 @EnableScheduling
-@AllArgsConstructor
 @RequiredArgsConstructor
 public class ResendEmailScheduler {
 
-    @Autowired
-    private EmailService emailService;
-    private ModelMapper mapper;
+    private final MailDevEmailSender emailSender;
+    private final ModelMapper mapper;
 
-    @Scheduled(fixedRate = 50000)
-    public void resendEmail() {
-        Iterable<ScheduledEmail> emailRequests = emailService.findUnsentEmails();
-        for (ScheduledEmail request : emailRequests){
-            emailService.send(mapper.map(request));
+    @Scheduled(fixedDelay = 300000, initialDelay = 1000) /*Fixed delay: Five minutes*/
+    public void resendEmail() throws MessagingException {
+        List<Email> emails = emailSender.findUnsentEmails();
+        for (Email email : emails){
+            if(email.getTrialLimit() < 5){
+                email.setTrialLimit(email.getTrialLimit() + 1);
+                emailSender.send(mapper.map(email));
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package africa.semicolon.notification.dtos.requests;
 
+import africa.semicolon.notification.utils.SendType;
 import lombok.*;
 
 @Setter
@@ -8,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class MessageRequest {
 
-    private String type;
+    private SendType type;
     private String from;
     private String message;
     private String subject;

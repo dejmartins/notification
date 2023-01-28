@@ -1,6 +1,5 @@
 package africa.semicolon.notification.email;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,14 +13,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class ScheduledEmail {
+public class Email {
 
     @Id
     private String id;
-    @Email
-    private String emailAddress;
+    private String body;
+    private int trialLimit;
     @NotBlank
     private String subject;
-    private String body;
     private boolean hasSent;
+    @jakarta.validation.constraints.Email
+    private String emailAddress;
 }

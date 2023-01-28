@@ -1,36 +1,30 @@
 package africa.semicolon.notification.sender;
 
+import africa.semicolon.notification.dtos.requests.MessageRequest;
 import africa.semicolon.notification.sender.dtos.requests.RegistrationRequest;
 import africa.semicolon.notification.sender.dtos.responses.RegistrationResponse;
 import africa.semicolon.notification.sender.mapper.UserModelMapper;
 import africa.semicolon.notification.utils.Sender;
-import africa.semicolon.notification.dtos.requests.MessageRequest;
-import africa.semicolon.notification.dtos.responses.SendResponse;
-import lombok.AllArgsConstructor;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
 
 @Service
-@AllArgsConstructor
 @RequiredArgsConstructor
 public class SenderService {
 
-    private UserRepository userRepository;
-    private UserModelMapper modelMapper;
-    private Sender emailSender;
-
-    public CompletableFuture<SendResponse> send(MessageRequest messageRequest) throws IOException {
-        Sender sender = SenderFactory
-                .getSender(messageRequest.getType())
-                .orElseThrow(() -> new IllegalStateException("Invalid sender type"));
-        return sender.send(messageRequest);
+    private final UserRepository userRepository;
+    private final UserModelMapper modelMapper;
+    private final SenderFactory senderFactory;
+    public void send(MessageRequest messageRequest) throws MessagingException, IOException {
+        Sender sender = senderFactory.getSender(messageRequest.getType());
+        sender.send(messageRequest);
     }
 
 
-    public RegistrationResponse register(RegistrationRequest registrationRequest) throws IOException {
+    public RegistrationResponse register(RegistrationRequest registrationRequest) {
         boolean emailExist = userRepository.findUserByEmail(registrationRequest.getEmail()).isPresent();
         if(emailExist) throw new IllegalStateException("Email already exists");
 
@@ -47,7 +41,7 @@ public class SenderService {
         request.setMessage(buildEmail(firstName, confirmationToken));
         request.setSubject("Confirm your email");
 
-        emailSender.send(request);
+//        emailSender.send(request);
 
         return registrationResponse;
     }
