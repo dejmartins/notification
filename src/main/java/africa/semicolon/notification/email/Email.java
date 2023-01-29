@@ -21,6 +21,7 @@ public class Email {
     private int retryLimit;
     @NotBlank
     private String subject;
+    private String reference;
     private EmailStatus status;
     @jakarta.validation.constraints.Email
     private String emailAddress;

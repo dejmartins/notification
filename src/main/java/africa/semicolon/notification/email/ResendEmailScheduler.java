@@ -1,7 +1,7 @@
 package africa.semicolon.notification.email;
 
 import africa.semicolon.notification.email.providers.MailDevEmailSender;
-import africa.semicolon.notification.email.mapper.ModelMapper;
+import africa.semicolon.notification.email.mapper.EmailModelMapper;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +17,9 @@ public class ResendEmailScheduler {
 
     private final EmailService emailService;
     private final MailDevEmailSender emailSender;
-    private final ModelMapper mapper;
+    private final EmailModelMapper mapper;
 
-    @Scheduled(fixedDelay = 300000, initialDelay = 1000) /*Fixed delay: Five minutes*/
+    @Scheduled(fixedDelay = 30000, initialDelay = 1000) /*Fixed delay: Five minutes*/
     public void resendEmail() throws MessagingException {
 
         List<Email> emails = emailSender.findUnsentEmails();

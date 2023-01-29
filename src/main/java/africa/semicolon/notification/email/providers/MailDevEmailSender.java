@@ -5,7 +5,7 @@ import africa.semicolon.notification.email.Email;
 import africa.semicolon.notification.email.EmailRepository;
 import africa.semicolon.notification.email.EmailService;
 import africa.semicolon.notification.email.EmailStatus;
-import africa.semicolon.notification.email.mapper.ModelMapper;
+import africa.semicolon.notification.email.mapper.EmailModelMapper;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +25,7 @@ import java.util.Optional;
 public class MailDevEmailSender implements EmailService {
     private final EmailRepository emailRepository;
     private final JavaMailSender javaMailSender;
-    private final ModelMapper mapper;
-
+    private final EmailModelMapper mapper;
 
     @Async
     public void send(MessageRequest messageRequest) {
@@ -54,7 +53,7 @@ public class MailDevEmailSender implements EmailService {
 
     @Override
     public void save(Email email) {
-        Optional<Email> foundEmail = emailRepository.findByEmailAddressIgnoreCase(email.getEmailAddress());
+        Optional<Email> foundEmail = emailRepository.findByReference(email.getReference());
         if (foundEmail.isPresent()){
             foundEmail.get().setStatus(email.getStatus());
             foundEmail.get().setRetryLimit(foundEmail.get().getRetryLimit() + 1);

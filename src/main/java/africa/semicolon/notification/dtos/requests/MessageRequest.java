@@ -13,6 +13,7 @@ public class MessageRequest {
     private String from;
     private String message;
     private String subject;
+    private String reference;
     private String phoneNumber;
     private String emailAddress;
 
