@@ -4,6 +4,7 @@ import africa.semicolon.notification.dtos.requests.MessageRequest;
 import africa.semicolon.notification.email.Email;
 import africa.semicolon.notification.email.EmailRepository;
 import africa.semicolon.notification.email.EmailService;
+import africa.semicolon.notification.email.EmailStatus;
 import africa.semicolon.notification.email.mapper.ModelMapper;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -28,7 +29,7 @@ public class MailDevEmailSender implements EmailService {
 
 
     @Async
-    public void send(MessageRequest messageRequest) throws MessagingException {
+    public void send(MessageRequest messageRequest) {
         Email email = mapper.map(messageRequest);
         try{
             MimeMessage mailMessage = javaMailSender.createMimeMessage();
@@ -38,10 +39,11 @@ public class MailDevEmailSender implements EmailService {
             mimeMessageHelper.setTo(email.getEmailAddress());
             mimeMessageHelper.setFrom("dej@gmail.com");
             mimeMessageHelper.setText(email.getBody(), true);
-            save(email);
             javaMailSender.send(mailMessage);
-            email.setHasSent(true);
+            email.setStatus(EmailStatus.SENT);
+            save(email);
         } catch (MessagingException | MailException e) {
+            save(email);
             throw new RuntimeException(e);
         }
     }
@@ -54,7 +56,8 @@ public class MailDevEmailSender implements EmailService {
     public void save(Email email) {
         Optional<Email> foundEmail = emailRepository.findByEmailAddressIgnoreCase(email.getEmailAddress());
         if (foundEmail.isPresent()){
-            foundEmail.get().setTrialLimit(foundEmail.get().getTrialLimit() + 1);
+            foundEmail.get().setStatus(email.getStatus());
+            foundEmail.get().setRetryLimit(foundEmail.get().getRetryLimit() + 1);
             emailRepository.save(foundEmail.get());
         } else emailRepository.save(email);
     }

@@ -15,16 +15,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ResendEmailScheduler {
 
+    private final EmailService emailService;
     private final MailDevEmailSender emailSender;
     private final ModelMapper mapper;
 
     @Scheduled(fixedDelay = 300000, initialDelay = 1000) /*Fixed delay: Five minutes*/
     public void resendEmail() throws MessagingException {
+
         List<Email> emails = emailSender.findUnsentEmails();
         for (Email email : emails){
-            if(email.getTrialLimit() < 5){
-                email.setTrialLimit(email.getTrialLimit() + 1);
+            if(email.getRetryLimit() < 5){
                 emailSender.send(mapper.map(email));
+            } else {
+                email.setStatus(EmailStatus.UNSENT);
+                emailService.save(email);
             }
         }
     }

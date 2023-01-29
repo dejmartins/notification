@@ -18,10 +18,10 @@ public class Email {
     @Id
     private String id;
     private String body;
-    private int trialLimit;
+    private int retryLimit;
     @NotBlank
     private String subject;
-    private boolean hasSent;
+    private EmailStatus status;
     @jakarta.validation.constraints.Email
     private String emailAddress;
 }

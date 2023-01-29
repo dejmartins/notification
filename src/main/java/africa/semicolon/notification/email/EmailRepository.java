@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface EmailRepository extends MongoRepository<Email, String> {
 
-    @Query("{hasSent:false}")
+    @Query("{status:PENDING}")
     List<Email> findUnsentEmails();
     Optional<Email> findByEmailAddressIgnoreCase(String emailAddress);
 
