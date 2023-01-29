@@ -12,7 +12,6 @@ public interface EmailRepository extends MongoRepository<Email, String> {
 
     @Query("{status:PENDING}")
     List<Email> findUnsentEmails();
-    Optional<Email> findByEmailAddressIgnoreCase(String emailAddress);
     Optional<Email> findByReference(String reference);
 
 }
