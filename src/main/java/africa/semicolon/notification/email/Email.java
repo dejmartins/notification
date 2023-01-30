@@ -17,6 +17,7 @@ public class Email {
 
     @Id
     private String id;
+    @NotBlank
     private String body;
     private int retryLimit;
     @NotBlank

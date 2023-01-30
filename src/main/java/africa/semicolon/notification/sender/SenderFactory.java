@@ -33,7 +33,7 @@ public class SenderFactory{
 
     public Sender getSender(SendType type){
         return Optional.ofNullable(senderMap.get(type))
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("Invalid type - " + type));
     }
 
 }

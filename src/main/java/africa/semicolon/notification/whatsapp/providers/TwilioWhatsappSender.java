@@ -9,10 +9,8 @@ import africa.semicolon.notification.whatsapp.mapper.WhatsappModelMapper;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.twilio.rest.api.v2010.account.Message;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class TwilioWhatsappSender implements WhatsappService {
