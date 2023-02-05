@@ -1,6 +1,7 @@
 package africa.semicolon.notification.sender;
 
 import africa.semicolon.notification.email.EmailService;
+import africa.semicolon.notification.exceptions.InvalidSendTypeException;
 import africa.semicolon.notification.sms.SmsService;
 import africa.semicolon.notification.utils.SendType;
 import africa.semicolon.notification.utils.Sender;
@@ -32,8 +33,7 @@ public class SenderFactory{
 
 
     public Sender getSender(SendType type){
-        return Optional.ofNullable(senderMap.get(type))
-                .orElseThrow(() -> new IllegalArgumentException("Invalid type - " + type));
+        return senderMap.get(type);
     }
 
 }

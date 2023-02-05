@@ -1,6 +1,7 @@
 package africa.semicolon.notification.dtos.requests;
 
 import africa.semicolon.notification.utils.SendType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 @Setter
@@ -9,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class MessageRequest {
 
-    private SendType type;
+    private String type;
     private String from;
     private String message;
     private String subject;

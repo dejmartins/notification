@@ -19,7 +19,7 @@ public class ResendEmailScheduler {
     private final MailDevEmailSender emailSender;
     private final EmailModelMapper mapper;
 
-    @Scheduled(fixedDelay = 30000, initialDelay = 1000) /*Fixed delay: Five minutes*/
+    @Scheduled(fixedDelay = 3000, initialDelay = 1000) /*Fixed delay: Five minutes*/
     public void resendEmail() {
         List<Email> emails = emailSender.findUnsentEmails();
         for (Email email : emails){
