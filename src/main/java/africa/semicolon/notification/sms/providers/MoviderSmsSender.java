@@ -2,6 +2,7 @@ package africa.semicolon.notification.sms.providers;
 
 import africa.semicolon.notification.config.movider.MoviderConfiguration;
 import africa.semicolon.notification.dtos.requests.MessageRequest;
+import africa.semicolon.notification.exceptions.InvalidPhoneNumberException;
 import africa.semicolon.notification.sms.SmsRequest;
 import africa.semicolon.notification.sms.SmsService;
 import africa.semicolon.notification.sms.mapper.SmsModelMapper;
@@ -50,7 +51,7 @@ public class MoviderSmsSender implements SmsService {
             Response response = client.newCall(request).execute();
             log.info(response.body().string());
         } else {
-            throw new IllegalArgumentException("Invalid Phone Number for Nigeria");
+            throw new InvalidPhoneNumberException("Invalid Phone Number for Nigeria");
         }
     }
 

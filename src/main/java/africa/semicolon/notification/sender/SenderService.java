@@ -23,7 +23,7 @@ public class SenderService {
         try{
             Sender sender = senderFactory.getSender(SendType.fromString(messageRequest.getType()));
             sender.send(messageRequest);
-        } catch (Exception e) {
+        } catch (InvalidSendTypeException exception) {
             throw new InvalidSendTypeException("Invalid Type");
         }
 

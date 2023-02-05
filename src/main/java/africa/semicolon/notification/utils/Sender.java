@@ -2,6 +2,7 @@ package africa.semicolon.notification.utils;
 
 
 import africa.semicolon.notification.dtos.requests.MessageRequest;
+import africa.semicolon.notification.exceptions.InvalidPhoneNumberException;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
@@ -23,7 +24,7 @@ public interface Sender {
         try{
             nigerianNumberProto = phoneUtil.parse(phoneNumber, "NG");
         } catch (NumberParseException e) {
-            throw new RuntimeException("Invalid Phone Number for Nigeria");
+            throw new InvalidPhoneNumberException("Invalid Phone Number for Nigeria");
         }
 
         return phoneUtil.isValidNumberForRegion(nigerianNumberProto, "NG");
