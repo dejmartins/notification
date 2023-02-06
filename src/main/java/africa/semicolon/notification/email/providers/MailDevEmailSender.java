@@ -28,27 +28,28 @@ public class MailDevEmailSender implements EmailService {
     private final EmailModelMapper mapper;
 
     @Async
-    public void send(MessageRequest messageRequest) {
+    public void send(MessageRequest messageRequest) throws MessagingException {
         Email email = mapper.map(messageRequest);
         try{
             MimeMessage mailMessage = javaMailSender.createMimeMessage();
-            System.out.println(javaMailSender);
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mailMessage, "utf-8");
             mimeMessageHelper.setSubject(email.getSubject());
             mimeMessageHelper.setTo(email.getEmailAddress());
             mimeMessageHelper.setFrom("dej@gmail.com");
+            log.error(messageRequest.getEmailAddress());
             mimeMessageHelper.setText(email.getBody(), true);
             javaMailSender.send(mailMessage);
             email.setStatus(EmailStatus.SENT);
             save(email);
         } catch (MessagingException | MailException e) {
             save(email);
-            throw new RuntimeException(e);
+            log.error(e.getMessage());
+            throw new MessagingException("Email not sent");
         }
     }
 
-    public List<Email> findUnsentEmails(){
-        return emailRepository.findUnsentEmails();
+    public List<Email> findPendingEmails(){
+        return emailRepository.findPendingEmails();
     }
 
     @Override

@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface EmailRepository extends MongoRepository<Email, String> {
 
     @Query("{status:PENDING}")
-    List<Email> findUnsentEmails();
+    List<Email> findPendingEmails();
     Optional<Email> findByReference(String reference);
 
 }
