@@ -20,7 +20,7 @@ public class ResendEmailScheduler {
     private final EmailModelMapper mapper;
 
     @Scheduled(fixedDelay = 3000, initialDelay = 1000) /*Fixed delay: Five minutes*/
-    public void resendEmail() {
+    public void resendEmail() throws MessagingException {
         List<Email> emails = emailSender.findUnsentEmails();
         for (Email email : emails){
             if(email.getRetryLimit() < 5){
@@ -28,6 +28,7 @@ public class ResendEmailScheduler {
             } else {
                 email.setStatus(EmailStatus.UNSENT);
                 emailService.save(email);
+                throw new IllegalArgumentException("Email not sent");
             }
         }
     }

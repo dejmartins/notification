@@ -49,7 +49,6 @@ public class MoviderSmsSender implements SmsService {
 
         if(Sender.isPhoneNumberValid(smsRequest.getPhoneNumber())){
             Response response = client.newCall(request).execute();
-            log.info(response.body().string());
         } else {
             throw new InvalidPhoneNumberException("Invalid Phone Number for Nigeria");
         }

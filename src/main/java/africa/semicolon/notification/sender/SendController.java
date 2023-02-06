@@ -31,7 +31,7 @@ public class SendController {
             InvalidSendTypeException{
         senderService.send(request);
         ApiResponse apiResponse = ApiResponse.builder()
-                .data(ResponseEntity.ok("Sent"))
+                .data(ResponseEntity.ok("Pending"))
                 .timeStamp(ZonedDateTime.now())
                 .isSuccessful(true)
                 .build();

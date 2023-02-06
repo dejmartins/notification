@@ -35,7 +35,5 @@ public class TwilioSmsSender implements SmsService {
         } else {
             throw new IllegalArgumentException("Invalid Phone Number for Nigeria");
         }
-
-        log.info(senderId);
     }
 }

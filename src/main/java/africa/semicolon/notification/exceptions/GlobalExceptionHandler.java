@@ -2,6 +2,8 @@ package africa.semicolon.notification.exceptions;
 
 import africa.semicolon.notification.dtos.responses.ApiResponse;
 import com.google.i18n.phonenumbers.NumberParseException;
+import com.sun.mail.util.MailConnectException;
+import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -36,6 +38,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler( {InvalidPhoneNumberException.class} )
     public ResponseEntity<?> illegalArgument(InvalidPhoneNumberException exception){
+        ApiResponse response = new ApiResponse(
+                ZonedDateTime.now(),
+                exception.getMessage(),
+                false
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler( {MailConnectException.class} )
+    public ResponseEntity<?> mess(MailConnectException exception){
         ApiResponse response = new ApiResponse(
                 ZonedDateTime.now(),
                 exception.getMessage(),
