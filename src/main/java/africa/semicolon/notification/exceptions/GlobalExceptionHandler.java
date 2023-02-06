@@ -45,14 +45,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
-
-    @ExceptionHandler( {MailConnectException.class} )
-    public ResponseEntity<?> mess(MailConnectException exception){
-        ApiResponse response = new ApiResponse(
-                ZonedDateTime.now(),
-                exception.getMessage(),
-                false
-        );
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
 }
