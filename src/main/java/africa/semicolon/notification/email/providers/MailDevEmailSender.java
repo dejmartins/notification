@@ -35,8 +35,7 @@ public class MailDevEmailSender implements EmailService {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mailMessage, "utf-8");
             mimeMessageHelper.setSubject(email.getSubject());
             mimeMessageHelper.setTo(email.getEmailAddress());
-            mimeMessageHelper.setFrom("dej@gmail.com");
-            log.error(messageRequest.getEmailAddress());
+            mimeMessageHelper.setFrom(messageRequest.getFrom());
             mimeMessageHelper.setText(email.getBody(), true);
             javaMailSender.send(mailMessage);
             email.setStatus(EmailStatus.SENT);
@@ -56,6 +55,7 @@ public class MailDevEmailSender implements EmailService {
     public void save(Email email) {
         Optional<Email> foundEmail = emailRepository.findByReference(email.getReference());
         if (foundEmail.isPresent()){
+            log.info("I am here {}", foundEmail.get().getId());
             foundEmail.get().setStatus(email.getStatus());
             foundEmail.get().setRetryLimit(foundEmail.get().getRetryLimit() + 1);
             emailRepository.save(foundEmail.get());

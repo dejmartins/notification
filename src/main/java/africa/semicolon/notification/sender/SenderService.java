@@ -1,7 +1,6 @@
 package africa.semicolon.notification.sender;
 
 import africa.semicolon.notification.dtos.requests.MessageRequest;
-import africa.semicolon.notification.exceptions.InvalidSendTypeException;
 import africa.semicolon.notification.utils.SendType;
 import africa.semicolon.notification.utils.Sender;
 import com.google.i18n.phonenumbers.NumberParseException;
@@ -20,12 +19,8 @@ public class SenderService {
 
     public void send(MessageRequest messageRequest) throws MessagingException, IOException, NumberParseException {
         messageRequest.setReference(generateReference());
-        try{
-            Sender sender = senderFactory.getSender(SendType.fromString(messageRequest.getType()));
-            sender.send(messageRequest);
-        } catch (InvalidSendTypeException exception) {
-            throw new InvalidSendTypeException("Invalid Type");
-        }
+        Sender sender = senderFactory.getSender(SendType.fromString(messageRequest.getType()));
+        sender.send(messageRequest);
 
     }
 

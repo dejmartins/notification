@@ -12,6 +12,7 @@ public class EmailModelMapper {
         Email email = new Email();
         email.setSubject(messageRequest.getSubject());
         email.setBody(messageRequest.getMessage());
+        email.setFrom(messageRequest.getFrom());
         email.setStatus(EmailStatus.PENDING);
         email.setReference(messageRequest.getReference());
         email.setEmailAddress(messageRequest.getEmailAddress());
@@ -21,6 +22,7 @@ public class EmailModelMapper {
     public MessageRequest map(Email email){
         MessageRequest messageRequest = new MessageRequest();
         messageRequest.setMessage(email.getBody());
+        messageRequest.setFrom(email.getFrom());
         messageRequest.setSubject(email.getSubject());
         messageRequest.setReference(email.getReference());
         messageRequest.setEmailAddress(email.getEmailAddress());

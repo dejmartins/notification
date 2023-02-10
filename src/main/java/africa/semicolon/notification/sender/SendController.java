@@ -3,6 +3,7 @@ package africa.semicolon.notification.sender;
 import africa.semicolon.notification.dtos.requests.MessageRequest;
 import africa.semicolon.notification.dtos.responses.ApiResponse;
 import africa.semicolon.notification.exceptions.InvalidSendTypeException;
+import africa.semicolon.notification.utils.SendType;
 import com.google.i18n.phonenumbers.NumberParseException;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("api/v1/notification")

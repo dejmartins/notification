@@ -19,6 +19,7 @@ public class Email {
     private String id;
     @NotBlank
     private String body;
+    private String from;
     private int retryLimit;
     @NotBlank
     private String subject;

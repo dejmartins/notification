@@ -1,6 +1,12 @@
 package africa.semicolon.notification.utils;
 
+import africa.semicolon.notification.exceptions.InvalidSendTypeException;
 import com.fasterxml.jackson.annotation.JsonCreator;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public enum SendType {
     SMS("sms"), EMAIL("email"), WHATSAPP("whatsapp");
@@ -17,6 +23,11 @@ public enum SendType {
 
     @JsonCreator
     public static SendType fromString(String sendType) {
-        return SendType.valueOf(sendType.toUpperCase());
+        List<SendType> types = Arrays.stream(SendType.values())
+                .filter((type) -> type.toString().equalsIgnoreCase(sendType)).toList();
+        if (!types.isEmpty()){
+            return types.get(0);
+        }
+        throw new InvalidSendTypeException("Invalid Type");
     }
 }

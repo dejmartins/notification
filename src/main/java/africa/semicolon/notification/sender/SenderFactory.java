@@ -1,7 +1,6 @@
 package africa.semicolon.notification.sender;
 
 import africa.semicolon.notification.email.EmailService;
-import africa.semicolon.notification.exceptions.InvalidSendTypeException;
 import africa.semicolon.notification.sms.SmsService;
 import africa.semicolon.notification.utils.SendType;
 import africa.semicolon.notification.utils.Sender;
@@ -10,9 +9,9 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
