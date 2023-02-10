@@ -10,6 +10,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -21,6 +22,7 @@ import java.util.Optional;
 
 @Slf4j
 @Component
+@Profile(value = "dev")
 @RequiredArgsConstructor
 public class MailDevEmailSender implements EmailService {
     private final EmailRepository emailRepository;
