@@ -9,8 +9,8 @@ public class TwilioInitializer {
 
     @Autowired
     public TwilioInitializer(TwilioConfiguration twilioConfiguration){
-        String ACCOUNT_SID = System.getenv("ACCOUNT_SID");
-        String AUTH_TOKEN = System.getenv("AUTH_TOKEN");
+        String ACCOUNT_SID = twilioConfiguration.getAccountSid();
+        String AUTH_TOKEN = twilioConfiguration.getAuthToken();
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
     }
 }
