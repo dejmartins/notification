@@ -23,6 +23,7 @@ target/
 mvnw
 mvnw.cmd
 .mvn/*
+.DS_Store
 
 ### NetBeans ###
 /nbproject/private/
