@@ -20,6 +20,9 @@ target/
 *.ipr
 *.env
 *.log
+mvnw
+mvnw.cmd
+.mvn/*
 
 ### NetBeans ###
 /nbproject/private/
