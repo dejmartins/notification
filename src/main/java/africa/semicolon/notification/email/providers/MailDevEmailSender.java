@@ -57,7 +57,6 @@ public class MailDevEmailSender implements EmailService {
     public void save(Email email) {
         Optional<Email> foundEmail = emailRepository.findByReference(email.getReference());
         if (foundEmail.isPresent()){
-            log.info("I am here {}", foundEmail.get().getId());
             foundEmail.get().setStatus(email.getStatus());
             foundEmail.get().setRetryLimit(foundEmail.get().getRetryLimit() + 1);
             emailRepository.save(foundEmail.get());

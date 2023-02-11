@@ -1,6 +1,5 @@
 package africa.semicolon.notification.config.async;
 
-
 import africa.semicolon.notification.exceptions.AsyncExceptionHandler;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Bean;
