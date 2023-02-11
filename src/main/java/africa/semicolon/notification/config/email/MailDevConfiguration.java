@@ -15,6 +15,7 @@ import java.util.Properties;
 @Setter
 @Configuration
 @Profile(value = "dev")
+@ConfigurationProperties(prefix = "spring.mail")
 public class MailDevConfiguration {
     private String host;
     private int port;

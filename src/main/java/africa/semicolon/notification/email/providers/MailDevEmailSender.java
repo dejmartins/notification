@@ -10,6 +10,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Profile;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -22,7 +23,6 @@ import java.util.Optional;
 
 @Slf4j
 @Component
-@Profile(value = "dev")
 @RequiredArgsConstructor
 public class MailDevEmailSender implements EmailService {
     private final EmailRepository emailRepository;
@@ -45,7 +45,7 @@ public class MailDevEmailSender implements EmailService {
         } catch (MessagingException | MailException e) {
             save(email);
             log.error(e.getMessage());
-            throw new MessagingException("Email not sent");
+            throw new MessagingException(e.getMessage() + "- EMAIL NOT SENT");
         }
     }
 
