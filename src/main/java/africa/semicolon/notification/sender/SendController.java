@@ -5,6 +5,7 @@ import africa.semicolon.notification.dtos.responses.ApiResponse;
 import africa.semicolon.notification.exceptions.InvalidSendTypeException;
 import africa.semicolon.notification.utils.SendType;
 import com.google.i18n.phonenumbers.NumberParseException;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -30,7 +31,7 @@ public class SendController {
     public ResponseEntity<?> sendSms(@Valid @RequestBody MessageRequest request) throws MessagingException,
             IOException,
             NumberParseException,
-            InvalidSendTypeException{
+            InvalidSendTypeException, UnirestException {
         senderService.send(request);
         ApiResponse apiResponse = ApiResponse.builder()
                 .data(ResponseEntity.ok("Pending"))

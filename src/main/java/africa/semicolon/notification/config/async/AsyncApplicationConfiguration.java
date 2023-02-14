@@ -10,8 +10,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
 
-@EnableAsync(proxyTargetClass=true)
 @Configuration
+@EnableAsync(proxyTargetClass=true)
 public class AsyncApplicationConfiguration implements AsyncConfigurer {
 
     @Bean

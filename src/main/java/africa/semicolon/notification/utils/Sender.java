@@ -6,6 +6,7 @@ import africa.semicolon.notification.exceptions.InvalidPhoneNumberException;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import jakarta.mail.MessagingException;
 
 import java.io.IOException;
@@ -13,11 +14,9 @@ import java.io.IOException;
 
 public interface Sender {
 
-    void send(MessageRequest messageRequest) throws MessagingException, IOException, NumberParseException;
+    void send(MessageRequest messageRequest) throws MessagingException, IOException, NumberParseException, UnirestException;
 
     static boolean isPhoneNumberValid(String phoneNumber) {
-        System.out.println(phoneNumber);
-
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
         PhoneNumber nigerianNumberProto;
 

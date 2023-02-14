@@ -15,9 +15,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ResendEmailScheduler {
 
-    private final EmailService emailService;
     private final MailDevEmailSender emailSender;
     private final EmailModelMapper mapper;
+    private final EmailUtil emailUtil;
 
     @Scheduled(fixedDelay = 3000, initialDelay = 1000) /*Fixed delay: Five minutes*/
     public void resendEmail() throws MessagingException {
@@ -27,7 +27,7 @@ public class ResendEmailScheduler {
                 emailSender.send(mapper.map(email));
             } else {
                 email.setStatus(EmailStatus.UNSENT);
-                emailService.save(email);
+                emailUtil.save(email);
                 throw new IllegalStateException("Email not sent");
             }
         }

@@ -6,7 +6,4 @@ import java.util.List;
 
 public interface EmailService extends Sender {
 
-    List<Email> findPendingEmails();
-    void save(Email email);
-
 }

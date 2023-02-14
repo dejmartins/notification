@@ -4,6 +4,7 @@ import africa.semicolon.notification.dtos.requests.MessageRequest;
 import africa.semicolon.notification.utils.SendType;
 import africa.semicolon.notification.utils.Sender;
 import com.google.i18n.phonenumbers.NumberParseException;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class SenderService {
 
     private final SenderFactory senderFactory;
 
-    public void send(MessageRequest messageRequest) throws MessagingException, IOException, NumberParseException {
+    public void send(MessageRequest messageRequest) throws MessagingException, IOException, NumberParseException, UnirestException {
         messageRequest.setReference(generateReference());
         Sender sender = senderFactory.getSender(SendType.fromString(messageRequest.getType()));
         sender.send(messageRequest);
