@@ -19,10 +19,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build with Maven
+      - name: Setup Maven
         uses: stCarolas/setup-maven@v4.5
           with:
-            maven-version: 3.8.2
+            maven-version: 3.8.6
 
       - name: All the Tests and Coverage Checks
         run: mvn clean install
