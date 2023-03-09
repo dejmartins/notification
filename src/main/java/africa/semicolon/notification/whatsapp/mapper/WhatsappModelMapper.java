@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class WhatsappModelMapper {
 
-    public WhatsappRequest map(MessageRequest messageRequest) {
-        WhatsappRequest whatsappRequest = new WhatsappRequest();
-        whatsappRequest.setMessage(messageRequest.getMessage());
-        whatsappRequest.setPhoneNumber(messageRequest.getPhoneNumber());
-        return whatsappRequest;
-    }
+  public WhatsappRequest map(MessageRequest messageRequest) {
+    WhatsappRequest whatsappRequest = new WhatsappRequest();
+    whatsappRequest.setMessage(messageRequest.getMessage());
+    whatsappRequest.setPhoneNumber(messageRequest.getPhoneNumber());
+    return whatsappRequest;
+  }
 }
