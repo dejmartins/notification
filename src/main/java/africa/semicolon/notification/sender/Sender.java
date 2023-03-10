@@ -67,6 +67,7 @@ public class Sender implements UserDetails {
 
     @Override
     public boolean isEnabled() {
+        // TESTS
         return true;
     }
 }
