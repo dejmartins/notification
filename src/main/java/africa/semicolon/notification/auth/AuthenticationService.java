@@ -17,31 +17,30 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final SenderRepository senderRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
+  private final SenderRepository senderRepository;
+  private final PasswordEncoder passwordEncoder;
+  private final JwtService jwtService;
+  private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
-        var sender = Sender.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .emailAddress(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
-                .build();
-        senderRepository.save(sender);
-        var jwtToken = jwtService.generateToken(sender);
-        return AuthenticationResponse.builder().token(jwtToken).build();
-    }
+  public AuthenticationResponse register(RegisterRequest request) {
+    var sender =
+        Sender.builder()
+            .firstName(request.getFirstName())
+            .lastName(request.getLastName())
+            .emailAddress(request.getEmail())
+            .password(passwordEncoder.encode(request.getPassword()))
+            .role(Role.USER)
+            .build();
+    senderRepository.save(sender);
+    var jwtToken = jwtService.generateToken(sender);
+    return AuthenticationResponse.builder().token(jwtToken).build();
+  }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-        );
-        var sender = senderRepository.findByEmailAddressIgnoreCase(request.getEmail())
-                .orElseThrow();
-        var jwtToken = jwtService.generateToken(sender);
-        return AuthenticationResponse.builder().token(jwtToken).build();
-    }
+  public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+    var sender = senderRepository.findByEmailAddressIgnoreCase(request.getEmail()).orElseThrow();
+    var jwtToken = jwtService.generateToken(sender);
+    return AuthenticationResponse.builder().token(jwtToken).build();
+  }
 }
