@@ -5,6 +5,7 @@ on:
   push:
     branches-ignore:
       - main
+      - indev
 
 jobs:
   run-all-tests:
@@ -21,8 +22,8 @@ jobs:
 
       - name: Setup Maven
         uses: stCarolas/setup-maven@v4.5
-          with:
-            maven-version: 3.8.6
+        with:
+          maven-version: 3.8.6
 
       - name: All the Tests and Coverage Checks
         run: mvn clean install
