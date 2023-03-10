@@ -15,14 +15,14 @@ jobs:
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
-          with:
-            java-version: '17'
-            distribution: 'temurin'
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
       - name: Setup Maven
         uses: stCarolas/setup-maven@v4.5
-          with:
-            maven-version: 3.8.6
+        with:
+          maven-version: 3.8.6
 
       - name: All the Tests and Coverage Checks
         run: mvn clean install
