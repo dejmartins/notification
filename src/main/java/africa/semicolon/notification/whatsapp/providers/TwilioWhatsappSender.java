@@ -15,22 +15,23 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class TwilioWhatsappSender implements WhatsappService {
 
-    private final TwilioConfiguration twilioConfiguration;
-    private final WhatsappModelMapper mapper;
+  private final TwilioConfiguration twilioConfiguration;
+  private final WhatsappModelMapper mapper;
 
-    @Override
-    public void send(MessageRequest messageRequest) throws NumberParseException {
-        messageRequest.setPhoneNumber(Sender.phoneNumberFormat(messageRequest.getPhoneNumber()));
-        if(Sender.isPhoneNumberValid(messageRequest.getPhoneNumber())){
-            WhatsappRequest whatsappRequest = mapper.map(messageRequest);
-            Message message = Message.creator(
-                            new com.twilio.type.PhoneNumber("whatsapp:"+whatsappRequest.getPhoneNumber()),
-                            new com.twilio.type.PhoneNumber("whatsapp:"+twilioConfiguration.getWhatsappTrialNumber()),
-                            whatsappRequest.getMessage())
-                    .create();
-        } else {
-            throw new IllegalArgumentException("Invalid Phone Number for Nigeria");
-        }
-
+  @Override
+  public void send(MessageRequest messageRequest) throws NumberParseException {
+    messageRequest.setPhoneNumber(Sender.phoneNumberFormat(messageRequest.getPhoneNumber()));
+    if (Sender.isPhoneNumberValid(messageRequest.getPhoneNumber())) {
+      WhatsappRequest whatsappRequest = mapper.map(messageRequest);
+      Message message =
+          Message.creator(
+                  new com.twilio.type.PhoneNumber("whatsapp:" + whatsappRequest.getPhoneNumber()),
+                  new com.twilio.type.PhoneNumber(
+                      "whatsapp:" + twilioConfiguration.getWhatsappTrialNumber()),
+                  whatsappRequest.getMessage())
+              .create();
+    } else {
+      throw new IllegalArgumentException("Invalid Phone Number for Nigeria");
     }
+  }
 }

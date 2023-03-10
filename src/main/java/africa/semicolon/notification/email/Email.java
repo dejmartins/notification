@@ -15,16 +15,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 public class Email {
 
-    @Id
-    private String id;
-    @NotBlank
-    private String body;
-    private String from;
-    private int retryLimit;
-    @NotBlank
-    private String subject;
-    private String reference;
-    private EmailStatus status;
-    @jakarta.validation.constraints.Email
-    private String emailAddress;
+  @Id private String id;
+  @NotBlank private String body;
+  private String from;
+  private int retryLimit;
+  @NotBlank private String subject;
+  private String reference;
+  private EmailStatus status;
+  @jakarta.validation.constraints.Email private String emailAddress;
 }

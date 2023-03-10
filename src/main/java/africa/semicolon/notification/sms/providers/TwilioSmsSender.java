@@ -17,23 +17,24 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class TwilioSmsSender implements SmsService {
 
-    private final TwilioConfiguration twilioConfiguration;
-    private SmsModelMapper mapper;
+  private final TwilioConfiguration twilioConfiguration;
+  private SmsModelMapper mapper;
 
-    @Override
-    public void send(MessageRequest messageRequest) throws NumberParseException {
-        SmsRequest smsRequest = mapper.map(messageRequest);
-        String senderId = "";
-        messageRequest.setPhoneNumber(Sender.phoneNumberFormat(messageRequest.getPhoneNumber()));
-        if (Sender.isPhoneNumberValid(smsRequest.getPhoneNumber())) {
-            Message message = Message.creator(
-                            new com.twilio.type.PhoneNumber(smsRequest.getPhoneNumber()),
-                            new com.twilio.type.PhoneNumber(twilioConfiguration.getTrialNumber()),
-                            smsRequest.getMessage())
-                    .create();
-            senderId = message.getSid();
-        } else {
-            throw new IllegalArgumentException("Invalid Phone Number for Nigeria");
-        }
+  @Override
+  public void send(MessageRequest messageRequest) throws NumberParseException {
+    SmsRequest smsRequest = mapper.map(messageRequest);
+    String senderId = "";
+    messageRequest.setPhoneNumber(Sender.phoneNumberFormat(messageRequest.getPhoneNumber()));
+    if (Sender.isPhoneNumberValid(smsRequest.getPhoneNumber())) {
+      Message message =
+          Message.creator(
+                  new com.twilio.type.PhoneNumber(smsRequest.getPhoneNumber()),
+                  new com.twilio.type.PhoneNumber(twilioConfiguration.getTrialNumber()),
+                  smsRequest.getMessage())
+              .create();
+      senderId = message.getSid();
+    } else {
+      throw new IllegalArgumentException("Invalid Phone Number for Nigeria");
     }
+  }
 }

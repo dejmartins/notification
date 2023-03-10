@@ -11,38 +11,39 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import jakarta.mail.MessagingException;
-import lombok.RequiredArgsConstructor;
+import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
 @Slf4j
 @Component
 @Profile(value = "dev")
-public class MailGunEmailSender extends EmailUtil implements EmailService  {
+public class MailGunEmailSender extends EmailUtil implements EmailService {
 
-    private final MailGunConfiguration mailGunConfiguration;
+  private final MailGunConfiguration mailGunConfiguration;
 
-    @Autowired
-    public MailGunEmailSender(EmailRepository emailRepository, MailGunConfiguration mailGunConfiguration) {
-        super(emailRepository);
-        this.mailGunConfiguration = mailGunConfiguration;
-    }
+  @Autowired
+  public MailGunEmailSender(
+      EmailRepository emailRepository, MailGunConfiguration mailGunConfiguration) {
+    super(emailRepository);
+    this.mailGunConfiguration = mailGunConfiguration;
+  }
 
-    @Override
-    public void send(MessageRequest messageRequest) throws MessagingException, IOException, NumberParseException, UnirestException {
+  @Override
+  public void send(MessageRequest messageRequest)
+      throws MessagingException, IOException, NumberParseException, UnirestException {
 
-        HttpResponse<JsonNode> request = Unirest.post("https://api.mailgun.net/v3/" + mailGunConfiguration.getDomain() + "/messages")
-			.basicAuth("api", mailGunConfiguration.getApiKey())
-                .queryString("from", messageRequest.getFrom())
-                .queryString("to", messageRequest.getEmailAddress())
-                .queryString("subject", messageRequest.getSubject())
-                .queryString("text", messageRequest.getMessage())
-                .asJson();
+    HttpResponse<JsonNode> request =
+        Unirest.post("https://api.mailgun.net/v3/" + mailGunConfiguration.getDomain() + "/messages")
+            .basicAuth("api", mailGunConfiguration.getApiKey())
+            .queryString("from", messageRequest.getFrom())
+            .queryString("to", messageRequest.getEmailAddress())
+            .queryString("subject", messageRequest.getSubject())
+            .queryString("text", messageRequest.getMessage())
+            .asJson();
 
-        log.info(request.getBody().toString());
-    }
+    log.info(request.getBody().toString());
+  }
 }

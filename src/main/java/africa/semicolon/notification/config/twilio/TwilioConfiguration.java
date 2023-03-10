@@ -13,9 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "twilio")
 public class TwilioConfiguration {
 
-    private String accountSid;
-    private String authToken;
-    private String trialNumber;
-    private String whatsappTrialNumber;
-
+  private String accountSid;
+  private String authToken;
+  private String trialNumber;
+  private String whatsappTrialNumber;
 }

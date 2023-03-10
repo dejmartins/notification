@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SmsRequest {
 
-    @NotBlank
-    private String phoneNumber;
-    @NotBlank
-    private String message;
+  @NotBlank private String phoneNumber;
+  @NotBlank private String message;
 }

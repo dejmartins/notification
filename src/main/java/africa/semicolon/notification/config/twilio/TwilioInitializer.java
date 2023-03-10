@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TwilioInitializer {
 
-    @Autowired
-    public TwilioInitializer(TwilioConfiguration twilioConfiguration){
-        String ACCOUNT_SID = twilioConfiguration.getAccountSid();
-        String AUTH_TOKEN = twilioConfiguration.getAuthToken();
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-    }
+  @Autowired
+  public TwilioInitializer(TwilioConfiguration twilioConfiguration) {
+    String ACCOUNT_SID = twilioConfiguration.getAccountSid();
+    String AUTH_TOKEN = twilioConfiguration.getAuthToken();
+    Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+  }
 }
