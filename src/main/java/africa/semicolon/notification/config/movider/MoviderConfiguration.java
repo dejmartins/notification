@@ -11,8 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "movider")
 public class MoviderConfiguration {
 
-    private String apiKey;
-    private String apiSecret;
-    private String senderId;
-
+  private String apiKey;
+  private String apiSecret;
+  private String senderId;
 }

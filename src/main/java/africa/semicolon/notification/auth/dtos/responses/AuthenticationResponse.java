@@ -8,5 +8,5 @@ import lombok.*;
 @RequiredArgsConstructor
 public class AuthenticationResponse {
 
-    private String token;
+  private String token;
 }

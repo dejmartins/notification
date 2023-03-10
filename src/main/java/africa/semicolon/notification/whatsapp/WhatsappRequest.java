@@ -12,8 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class WhatsappRequest {
 
-    @NotBlank
-    private String phoneNumber;
-    @NotBlank
-    private String message;
+  @NotBlank private String phoneNumber;
+  @NotBlank private String message;
 }
