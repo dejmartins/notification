@@ -23,8 +23,4 @@ public class EmailUtil {
       emailRepository.save(foundEmail.get());
     } else emailRepository.save(email);
   }
-
-  public void test() {
-    // just testing
-  }
 }

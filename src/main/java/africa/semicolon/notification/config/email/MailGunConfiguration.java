@@ -11,12 +11,13 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "mailgun")
 public class MailGunConfiguration {
 
-    private final String apiKey;
-    private final String domain;
+  private final String apiKey;
+  private final String domain;
 
-    @Autowired
-    public MailGunConfiguration(@Value("${mailgun.api_key}") String apiKey, @Value("${mailgun.domain}")String domain) {
-        this.apiKey = apiKey;
-        this.domain = domain;
-    }
+  @Autowired
+  public MailGunConfiguration(
+      @Value("${mailgun.api_key}") String apiKey, @Value("${mailgun.domain}") String domain) {
+    this.apiKey = apiKey;
+    this.domain = domain;
+  }
 }
