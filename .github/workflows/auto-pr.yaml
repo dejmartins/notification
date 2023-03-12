@@ -2,9 +2,8 @@ name: Label auto-merge PRs
 
 on:
   push:
-    branches-ignore:
-      - main
-      - indev
+    branches:
+      - auth
 jobs:
   updateAuthor:
     runs-on: ubuntu-latest
