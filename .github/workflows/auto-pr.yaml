@@ -16,7 +16,7 @@ jobs:
         uses: rlespinasse/git-commit-data-action@v1.x
 
       - name: Update author information
-        run: echo ${{ env.GIT_COMMIT_AUTHOR_NAME }} > AUTHOR
+        run: echo ${{ env.GIT_COMMIT_AUTHOR_NAME }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
