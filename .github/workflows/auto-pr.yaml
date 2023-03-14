@@ -3,7 +3,7 @@ name: Label auto-merge PRs
 on:
   push:
     branches:
-      - auth
+      - indev
 jobs:
   updateAuthor:
     runs-on: ubuntu-latest
